@@ -1,0 +1,22 @@
+function workon {
+    if [[ ! -d ~/.virtualenv ]]; then
+        echo "Directory ~/.virtualenv deos not exists"
+        echo "Creating directory"
+        mkdir -p ~/.virtualenv
+    fi
+    if [[ $1 == 'list' ]]; then
+        ls ~/.virtualenv
+        exit 0
+    fi
+    if [[ ! -d ~/.virtualenv/$1 ]]; then
+        vared -p 'Virtualenv not created... Would you like to create?(y,n) ' -c create
+        if [[ $create == 'y' ]]; then
+            vared -p 'Whtch python?' -c python_version
+            virtualenv --python=$python_version --clear ~/.virtualenv/$1
+        fi
+    fi
+    if [[ $2 == '-d' ]]; then
+        wd $1
+    fi
+    source ~/.virtualenv/$1/bin/activate
+}
